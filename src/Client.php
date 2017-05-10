@@ -2,6 +2,7 @@
 
 namespace EPino\BingSearch;
 
+use EPino\BingSearch\Response\Web;
 use GuzzleHttp\Client as GuzzleClient;
 use Exception;
 
@@ -33,9 +34,18 @@ class Client implements ClientInterface {
 
     }
 
-    public function web() {
 
-        // TODO: Implement web() method.
+    public function web($query = '') {
+
+        $options = [
+            'query' => [
+                'q' => $query
+            ]
+        ];
+
+        $response = $this->request('search', 'GET', $options);
+
+        return new Web($response);
 
     }
 
@@ -62,6 +72,15 @@ class Client implements ClientInterface {
         return $this->client;
 
     }
+
+    public function request($endpoint, $method = 'GET', $options = []) {
+
+        return $response = $this->client->request($method, $endpoint, $options);
+
+
+    }
+
+
 
 
 }

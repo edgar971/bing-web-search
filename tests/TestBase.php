@@ -13,7 +13,7 @@ class TestBase extends PHPUnit_Framework_TestCase {
 
         if(!$this->client) {
 
-            $this->client = new Client('966de33cc9df5adfdfdfdf031bbc5');
+            $this->client = new Client('933d33cc9fdfdfdfdf5845ad8d16343g421bbc5');
 
         }
 

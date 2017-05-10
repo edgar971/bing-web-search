@@ -20,5 +20,8 @@ interface ClientInterface {
      */
     public function getGuzzleClient();
 
+    public function request($endpoint, $method = 'GET', $options = []);
+
+
 
 }

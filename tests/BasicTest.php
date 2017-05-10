@@ -28,4 +28,15 @@ class BasicTest extends TestBase {
 
     }
 
+    public function testRequest() {
+
+
+        $client = $this->getClient();
+
+        $response = $client->web('site:tests.com facebook');
+
+
+
+    }
+
 }
