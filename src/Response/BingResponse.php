@@ -4,6 +4,10 @@ namespace EPino\BingSearch\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class BingResponse
+ * @package EPino\BingSearch\Response
+ */
 class BingResponse implements BingResponseInterface {
 
     /**
@@ -11,15 +15,24 @@ class BingResponse implements BingResponseInterface {
      */
     protected $response;
 
+    /**
+     * @var object|\SimpleXMLElement
+     */
     protected $data;
 
+    /**
+     * Bing Response types
+     * @docs https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v5-reference#searchresponse
+     *
+     */
     const TYPES = [
         "WEB" => "webPages",
         "NEWS" => "news"
     ];
 
     /**
-     * https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v5-reference#searchresponse
+     *
+     * @docs https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v5-reference#searchresponse
      * @var string
      */
     protected $type;
@@ -76,7 +89,7 @@ class BingResponse implements BingResponseInterface {
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getResults() {
 
@@ -86,6 +99,9 @@ class BingResponse implements BingResponseInterface {
 
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getNumberOfResults() {
 
         $type = $this->type;

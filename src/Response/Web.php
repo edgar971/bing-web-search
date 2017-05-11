@@ -4,6 +4,10 @@ namespace EPino\BingSearch\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class Web
+ * @package EPino\BingSearch\Response
+ */
 class Web extends BingResponse {
 
     /**
