@@ -1,7 +1,8 @@
 <?php
 
 use GuzzleHttp\Client;
-
+use EPino\BingSearch\Response\BingResponse;
+use Psr\Http\Message\ResponseInterface;
 
 class BasicTest extends TestBase {
 
@@ -23,19 +24,34 @@ class BasicTest extends TestBase {
 
         $client = $this->getClient()->getGuzzleClient();
 
-
         $this->assertArrayHasKey(\EPino\BingSearch\Client::AUTH_HEADER, $client->getConfig('headers'));
 
     }
 
-    public function testRequest() {
-
+    public function testBingResponse() {
 
         $client = $this->getClient();
 
-        $response = $client->web('site:tests.com facebook');
+        $response = $client->request('searchdfdfdf');
 
+        $this->assertInstanceOf(ResponseInterface::class, $response);
 
+        $bingResponse = new BingResponse($response);
+
+        $this->assertTrue(is_object($bingResponse->getData()));
+        $this->assertEquals(0, $bingResponse->getNumberOfResults());
+        $this->assertEquals(0, count($bingResponse->getResults()));
+        $this->assertInstanceOf(ResponseInterface::class, $bingResponse->getResponse());
+
+    }
+
+    public function testSearchResponse() {
+
+        $client = $this->getClient();
+
+//        $response = $client->search('cats');
+//
+//        $response->getResults();
 
     }
 

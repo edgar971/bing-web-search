@@ -2,6 +2,7 @@
 
 namespace EPino\BingSearch;
 
+use EPino\BingSearch\Response\BingResponseInterface;
 use EPino\BingSearch\Response\Web;
 use Psr\Http\Message\ResponseInterface;
 

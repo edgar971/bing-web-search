@@ -27,15 +27,12 @@ class BingResponse implements BingResponseInterface {
      */
     const TYPES = [
         "WEB" => "webPages",
-        "NEWS" => "news"
+        "NEWS" => "news",
+        "IMAGES" => "images",
+        "VIDEOS" => "videos"
     ];
 
-    /**
-     *
-     * @docs https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v5-reference#searchresponse
-     * @var string
-     */
-    protected $type;
+
 
     /**
      * BingResponse constructor.
@@ -93,9 +90,24 @@ class BingResponse implements BingResponseInterface {
      */
     public function getResults() {
 
-        $type = $this->type;
+        $types = self::TYPES;
+        $results = [];
 
-        return (!empty($this->data) && isset($this->data->$type)) ? $this->data->$type->value : [];
+        if(empty($this->data)) {
+            return $results;
+        }
+
+        foreach($types as $type) {
+
+            if(isset($this->data->$type)) {
+
+                $results[$type] = $this->data->$type;
+
+            }
+
+        }
+
+        return $results;
 
     }
 

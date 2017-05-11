@@ -13,7 +13,7 @@ class TestBase extends PHPUnit_Framework_TestCase {
 
         if(!$this->client) {
 
-            $this->client = new Client('933d33cc9fdfdfdfdf5845ad8d16343g421bbc5');
+            $this->client = new Client(env('API_TOKEN', "234dfg8d5fdkdkfkd225"));
 
         }
 

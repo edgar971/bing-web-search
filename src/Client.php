@@ -4,6 +4,7 @@
  */
 namespace EPino\BingSearch;
 
+use EPino\BingSearch\Response\BingResponse;
 use EPino\BingSearch\Response\Web;
 use GuzzleHttp\Client as GuzzleClient;
 use Exception;
@@ -46,10 +47,12 @@ class Client implements ClientInterface {
             'base_uri' => $endpoint,
             'headers' => [
                 self::AUTH_HEADER => $token
-            ]
+            ],
+            'http_errors' => false
         ]);
 
     }
+
 
 
     /**
@@ -59,7 +62,9 @@ class Client implements ClientInterface {
 
         $options = [
             'query' => [
-                'q' => $query
+                'q' => $query,
+                'responseFilter' => 'Webpages'
+
             ]
         ];
 
@@ -81,9 +86,17 @@ class Client implements ClientInterface {
     /**
      * @inheritdoc
      */
-    public function search() {
+    public function search($query = '') {
 
-        // TODO: Implement search() method.
+        $options = [
+            'query' => [
+                'q' => $query
+            ]
+        ];
+
+        $response = $this->request('search', 'GET', $options);
+
+        return new BingResponse($response);
 
     }
 
@@ -110,7 +123,9 @@ class Client implements ClientInterface {
      */
     public function request($endpoint, $method = 'GET', $options = []) {
 
-        return $response = $this->client->request($method, $endpoint, $options);
+        $response = $this->client->request($method, $endpoint, $options);
+
+        return $response;
 
 
     }
