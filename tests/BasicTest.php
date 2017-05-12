@@ -34,9 +34,10 @@ class BasicTest extends TestBase {
 
         $response = $client->request('searchdfdfdf');
 
+
         $this->assertInstanceOf(ResponseInterface::class, $response);
 
-        $bingResponse = new BingResponse($response);
+        $bingResponse = new BingResponse($response, $client);
 
         $this->assertTrue(is_object($bingResponse->getData()));
         $this->assertEquals(0, $bingResponse->getNumberOfResults());
@@ -45,13 +46,21 @@ class BasicTest extends TestBase {
 
     }
 
-    public function testSearchResponse() {
+    public function testWebSearchResponse() {
 
         $client = $this->getClient();
 
-//        $response = $client->search('cats');
-//
-//        $response->getResults();
+        $web_response = $client->web('php');
+
+        $search_results = $web_response->getResults();
+
+        $this->assertTrue(is_array($search_results));
+        $this->assertGreaterThan(0, $search_results);
+        $this->assertGreaterThan(0, $web_response->getNumberOfResults());
+
+        $web_response->next();
+
+
 
     }
 

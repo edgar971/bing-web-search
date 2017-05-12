@@ -2,6 +2,8 @@
 
 namespace EPino\BingSearch\Response;
 
+use EPino\BingSearch\Traits\ResponsePagination;
+use EPino\BingSearch\Client;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -9,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
  * @package EPino\BingSearch\Response
  */
 class Web extends BingResponse {
+
+    use ResponsePagination;
 
     /**
      *
@@ -18,14 +22,16 @@ class Web extends BingResponse {
     protected $type;
 
     /**
-     * BingWebResponse constructor.
+     * Web constructor.
      * @param ResponseInterface $response
      */
-    public function __construct(ResponseInterface $response) {
+    public function __construct(ResponseInterface $response, Client $client, $request_options = []) {
 
         $this->type = BingResponse::TYPES["WEB"];
+        parent::__construct($response, $client, $request_options);
 
-        parent::__construct($response);
+        $this->updatePaginationParams();
+
 
     }
 

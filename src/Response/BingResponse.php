@@ -2,6 +2,8 @@
 
 namespace EPino\BingSearch\Response;
 
+use EPino\BingSearch\Client;
+use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -21,6 +23,13 @@ class BingResponse implements BingResponseInterface {
     protected $data;
 
     /**
+     * Guzzle Request Options
+     *
+     * @var array
+     */
+    protected $request_options;
+
+    /**
      * Bing Response types
      * @docs https://docs.microsoft.com/en-us/rest/api/cognitiveservices/bing-web-api-v5-reference#searchresponse
      *
@@ -32,13 +41,21 @@ class BingResponse implements BingResponseInterface {
         "VIDEOS" => "videos"
     ];
 
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    protected $number_of_results;
 
 
     /**
      * BingResponse constructor.
      * @param ResponseInterface $response
+     * @param Client $client
+     * @param array $request_options
      */
-    function __construct(ResponseInterface $response) {
+    function __construct(ResponseInterface $response, Client $client, $request_options = []) {
 
         $this->response = $response;
 
@@ -46,6 +63,9 @@ class BingResponse implements BingResponseInterface {
 
         $this->data = $this->decodeBody($response);
 
+        $this->request_options = $request_options;
+
+        $this->number_of_results = null;
 
     }
 
@@ -118,7 +138,11 @@ class BingResponse implements BingResponseInterface {
 
         $type = $this->type;
 
-        return (int) (!empty($this->data) && isset($this->data->$type)) ? $this->data->$type->totalEstimatedMatches : 0;
+        if(is_null($this->number_of_results)) {
+            $this->number_of_results = (int) (!empty($this->data) && isset($this->data->$type)) ? $this->data->$type->totalEstimatedMatches : 0;
+        }
+
+        return $this->number_of_results;
 
     }
 

@@ -8,6 +8,7 @@ use EPino\BingSearch\Response\BingResponse;
 use EPino\BingSearch\Response\Web;
 use GuzzleHttp\Client as GuzzleClient;
 use Exception;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * Class Client
@@ -70,7 +71,7 @@ class Client implements ClientInterface {
 
         $response = $this->request('search', 'GET', $options);
 
-        return new Web($response);
+        return new Web($response, $this, $options);
 
     }
 
@@ -96,7 +97,7 @@ class Client implements ClientInterface {
 
         $response = $this->request('search', 'GET', $options);
 
-        return new BingResponse($response);
+        return new BingResponse($response, $this->client, $options);
 
     }
 
