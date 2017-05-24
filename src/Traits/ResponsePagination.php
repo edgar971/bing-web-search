@@ -22,6 +22,7 @@ trait ResponsePagination {
         return array_get($this->request_options, $key);
 
     }
+
     protected function updatePaginationParams() {
 
         $this->results_per_page = ($this->getQueryParam('query.count')) ? $this->getQueryParam('query.count') : 10;
@@ -39,10 +40,6 @@ trait ResponsePagination {
 
 
 
-
-
-
-
     }
 
     public function previous() {
@@ -52,12 +49,6 @@ trait ResponsePagination {
     public function current() {
 
         return $this->getResults();
-
-    }
-
-    public function page($page_num = 0) {
-
-
 
     }
 

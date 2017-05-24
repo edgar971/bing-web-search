@@ -50,7 +50,7 @@ class BasicTest extends TestBase {
 
         $client = $this->getClient();
 
-        $web_response = $client->web('php');
+        $web_response = $client->web('php')->get();
 
         $search_results = $web_response->getResults();
 
@@ -58,10 +58,18 @@ class BasicTest extends TestBase {
         $this->assertGreaterThan(0, $search_results);
         $this->assertGreaterThan(0, $web_response->getNumberOfResults());
 
-        $web_response->next();
-
-
 
     }
+//
+//    public function testWebSearchPagination() {
+//
+//        $client = $this->getClient();
+//
+//        $web_results = $client->web('tips')->site('www.festfoods.com')->page(1)->get();
+//
+////        var_dump($web_results->getResults());
+//
+//
+//    }
 
 }

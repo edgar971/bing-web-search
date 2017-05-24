@@ -24,6 +24,17 @@ class Client implements ClientInterface {
      */
     protected $client;
 
+    protected $request_options = [
+        'query' => [
+            'q' => '',
+            'responseFilter' => '',
+            'offset' => 0,
+            'count' => 20
+        ]
+    ];
+
+    protected $type;
+
     /**
      * Header for API Authorization
      */
@@ -54,26 +65,85 @@ class Client implements ClientInterface {
 
     }
 
+    protected function createBingQueryParams($query = []) {
 
+        $default = $this->request_options['query'];
+
+        $query = array_merge($default, $query);
+
+        return $query;
+
+    }
+
+    protected function getBingQueryParam($key, $default = null) {
+
+        return array_get($this->request_options['query'], $key, $default);
+
+    }
 
     /**
      * @inheritdoc
      */
     public function web($query = '') {
 
-        $options = [
-            'query' => [
-                'q' => $query,
-                'responseFilter' => 'Webpages'
 
-            ]
-        ];
+        $bing_query = $this->createBingQueryParams([
+            'q' => $query,
+            'responseFilter' => 'Webpages'
+        ]);
 
-        $response = $this->request('search', 'GET', $options);
+        $this->request_options['query'] = $bing_query;
+        $this->type = Web::class;
 
-        return new Web($response, $this, $options);
+        return $this;
 
     }
+
+    /**
+     * @param int $page
+     * @return $this
+     */
+    public function page($page = 1) {
+
+        $count = $this->getBingQueryParam('count');
+        $offset = $this->getBingQueryParam('offset');
+        $new_offset = ($offset + $count) * $page;
+
+        $query['offset'] = $new_offset;
+
+        $this->request_options['query'] = $this->createBingQueryParams($query);
+
+        return $this;
+
+
+    }
+
+    public function site($site) {
+
+        $q = trim($this->getBingQueryParam('q'));
+        $q = (empty($q)) ? $q : 'site:' . $site . ' ' . $q;
+
+        $query['q'] = $q;
+
+        $this->request_options['query'] = $this->createBingQueryParams($query);
+
+        return $this;
+
+    }
+
+    /**
+     * @return Web
+     */
+    public function get() {
+
+        $response = $this->request('search', 'GET', $this->request_options);
+        $type = new $this->type($response, $this, $this->request_options);
+
+        return $type;
+
+    }
+
+
 
     /**
      * @inheritdoc
