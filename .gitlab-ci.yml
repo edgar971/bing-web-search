@@ -28,7 +28,8 @@ test:
 release:
   stage: release
   script:
-  - echo 'Edgar was here'
+  - rm composer.phar
+  - rm -rf .git
   artifacts:
     paths:
       - ./
