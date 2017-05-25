@@ -7,12 +7,6 @@ cache:
   paths:
   - vendor/
 
-before_script:
-# Install and run Composer
-- curl -sS https://getcomposer.org/installer | php
-- php composer.phar install
-
-
 stages:
   - test
   - release
@@ -23,6 +17,9 @@ stages:
 test:
   stage: test
   script:
+  # Install and run Composer
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar install
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
 release:
