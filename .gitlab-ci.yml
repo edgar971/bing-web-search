@@ -28,8 +28,11 @@ test:
 release:
   stage: release
   script:
-  - rm composer.phar
+  - rm -f composer.phar phpunit.xml README composer.lock composer.json
   - rm -rf .git
+  - rm -rf tests
+  - rm -rf tests
+
   artifacts:
     paths:
       - ./
