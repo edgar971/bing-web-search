@@ -28,6 +28,7 @@ test:
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
 release:
+  script: ls -la
   artifacts:
     paths:
       - ./
