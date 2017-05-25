@@ -17,19 +17,22 @@ before_script:
 - php composer.phar install
 
 
-# Set any variables we need
-variables:
+stages:
+  - test
+  - release
 
 
 # Run our tests
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
 test:
+  stage: test
   script:
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
 release:
+  stage: release
   script:
-  - ls -la
+  - echo 'Edgar was here'
   artifacts:
     paths:
       - ./
